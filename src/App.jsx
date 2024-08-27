@@ -16,7 +16,7 @@ function App() {
   function handleSubmit(event) {
     event.preventDefault();
     axios
-      .post("http://localhost:3000/sendMail", mail.name, mail.email, mail.subject, mail.body)
+      .post("http://localhost:3000/sendMail", mail)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   }
@@ -41,7 +41,12 @@ function App() {
                       <div id="form-message-success" className="mb-4">
                         Your message was sent, thank you!
                       </div>
-                      <form method="POST" id="contactForm" name="contactForm" onSubmit={handleSubmit}>
+                      <form
+                        method="POST"
+                        id="contactForm"
+                        name="contactForm"
+                        onSubmit={handleSubmit}
+                      >
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
@@ -52,7 +57,10 @@ function App() {
                                 id="name"
                                 placeholder="Name"
                                 onChange={(e) =>
-                                  setMail({ name: e.target.value })
+                                  setMail((prev) => ({
+                                    ...prev,
+                                    name: e.target.value,
+                                  }))
                                 }
                               />
                             </div>
@@ -66,7 +74,10 @@ function App() {
                                 id="email"
                                 placeholder="Email"
                                 onChange={(e) =>
-                                  setMail({ email: e.target.value })
+                                  setMail((prev) => ({
+                                    ...prev,
+                                    email: e.target.value,
+                                  }))
                                 }
                               />
                             </div>
@@ -80,7 +91,10 @@ function App() {
                                 id="subject"
                                 placeholder="Subject"
                                 onChange={(e) =>
-                                  setMail({ subject: e.target.value })
+                                  setMail((prev) => ({
+                                    ...prev,
+                                    subject: e.target.value,
+                                  }))
                                 }
                               />
                             </div>
@@ -95,7 +109,10 @@ function App() {
                                 rows="7"
                                 placeholder="Message"
                                 onChange={(e) =>
-                                  setMail({ body: e.target.value })
+                                  setMail((prev) => ({
+                                    ...prev,
+                                    body: e.target.value,
+                                  }))
                                 }
                               ></textarea>
                             </div>
