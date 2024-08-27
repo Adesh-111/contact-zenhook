@@ -16,7 +16,7 @@ function App() {
   function handleSubmit(event) {
     event.preventDefault();
     axios
-      .post("http://localhost:3000/sendMail", mail)
+      .post("http://localhost:3000/sendMail", mail.name, mail.email, mail.subject, mail.body)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   }
@@ -41,7 +41,7 @@ function App() {
                       <div id="form-message-success" className="mb-4">
                         Your message was sent, thank you!
                       </div>
-                      <form method="POST" id="contactForm" name="contactForm">
+                      <form method="POST" id="contactForm" name="contactForm" onSubmit={handleSubmit}>
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
@@ -103,7 +103,6 @@ function App() {
                           <div className="col-md-12">
                             <div className="form-group">
                               <input
-                              onSubmit={handleSubmit}
                                 type="submit"
                                 value="Send Message"
                                 className="btn btn-primary"

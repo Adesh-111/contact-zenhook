@@ -1,9 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
+import cors from "cors";
+
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 const port = 3000;
+app.use(cors());
 
 app.post("/sendMail", async (req, res) => {
   const result = req.body;
@@ -13,7 +16,7 @@ app.post("/sendMail", async (req, res) => {
     result.subject,
     result.body,
   ];
-//   console.log(result.name);
+  console.log(result);
   res.json({ success: true, message: "Email sent successfully..." });
 });
 
