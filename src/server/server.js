@@ -13,7 +13,7 @@ app.post("/sendMail", async (req, res) => {
     result.subject,
     result.body,
   ];
-console.log(result.name);
+//   console.log(result.name);
   res.json({ success: true, message: "Email sent successfully..." });
 });
 
