@@ -45,12 +45,10 @@ app.post("/sendMail", async (req, res) => {
   transporter.sendMail(sender, (error, info) => {
     if (error) {
       console.log(error);
-      return res
-        .status(500)
-        .json({
-          success: false,
-          message: "Email not sent. Please try again later.",
-        });
+      return res.status(500).json({
+        success: false,
+        message: "Email not sent. Please try again later.",
+      });
     } else {
       console.log("Email sent" + info.response);
       res.json({ success: true, message: "Email sent successfully!" });
