@@ -1,7 +1,7 @@
 
 # Contact-Zenhook
 
-<img src="https://wakatime.com/badge/user/9dec8e1b-8ebe-44ff-bac3-978088f17217/project/15c43a6a-f710-4b34-8096-8cacb1cb26dd.svg" alt="">
+<img src="https://wakatime.com/badge/user/9dec8e1b-8ebe-44ff-bac3-978088f17217/project/00f82930-b19a-4e1f-b623-20e2cb21241d.svg" alt="">
 
 ## Project Overview
 This project, **Contact-Zenhook**, is a contact form application built with React for the frontend and Node.js/Express for the backend. The form allows users to submit their name, email, subject, and message, which are then sent as an email using Nodemailer and OAuth2 for secure authentication.
