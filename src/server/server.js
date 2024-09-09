@@ -6,11 +6,15 @@ import nodemailer from "nodemailer";
 import { google } from "googleapis";
 
 const app = express();
+env.config();
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-const port = 3000;
-env.config();
-app.use(cors());
+app.use(cors({
+  origin: process.env.CLIENT_URL, // Update this to your deployed client URL
+}));
+
+const port = process.env.PORT || 3000;
 
 const { OAuth2 } = google.auth;
 const oauth2Client = new OAuth2(
@@ -20,45 +24,49 @@ const oauth2Client = new OAuth2(
 );
 
 app.post("/sendMail", async (req, res) => {
-  const result = req.body;
-  const { name, email, subject, body } = result;
+  const { name, email, subject, body } = req.body;
+  const accessToken = await getAccessToken();
 
-  let transporter = nodemailer.createTransport({
+  if (!accessToken) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to generate access token. Please try again later.",
+    });
+  }
+
+  const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       type: "OAuth2",
       user: process.env.USER,
       clientId: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      accessToken: process.env.ACCESS_TOKEN,
       refreshToken: process.env.REFRESH_TOKEN,
+      accessToken,
     },
   });
 
-  let sender = {
+  const mailOptions = {
     from: email,
     to: process.env.USER,
     subject: subject,
     text: `Name: ${name}\nEmail: ${email}\n\nMessage: ${body}`,
   };
 
-  transporter.sendMail(sender, (error, info) => {
+  transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log(error);
+      console.error("Error sending email:", error);
       return res.status(500).json({
         success: false,
         message: "Email not sent. Please try again later.",
       });
     } else {
-      console.log("Email sent" + info.response);
-      res.json({ success: true, message: "Email sent successfully!" });
+      console.log("Email sent:", info.response);
+      return res.json({ success: true, message: "Email sent successfully!" });
     }
   });
-
-  console.log(result);
-  res.json({ success: true, message: "Email sent successfully..." });
 });
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {  // Ensure it listens on all network interfaces
   console.log(`Server is running on port ${port}`);
 });

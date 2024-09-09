@@ -16,7 +16,7 @@ function App() {
   function handleSubmit(event) {
     event.preventDefault();
     axios
-      .post("http://localhost:3000/sendMail", mail)
+      .post("https://contact-zenhook-dd9psckfa-adeshs-projects-873fa97c.vercel.app/sendMail", mail)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   }
